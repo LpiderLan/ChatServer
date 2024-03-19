@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # ChatServer
 
 在 Linux 环境下基于 muduo 网络库开发的集群聊天服务器。实现功能如下：
@@ -14,11 +13,10 @@
 
 - 网络层，业务层，数据层，客户端页面分层设计
 - 基于 muduo 网络库开发网络模块ChatServer，实现客户端和服务器之间连接和发送消息
-- 使用Mysql，设计User, Friend, GroupUser, AllGroup, OfflineMessage五张数据库表。
-- 使用第三方 JSON 库实现通信数据的序列化和反序列化
-- 使用 Nginx 的 TCP 负载均衡功能，将客户端请求分派到多个服务器上，以提高并发处理能力
-- 基于发布-订阅的服务器中间件redis消息队列，解决用户跨服务器通信难题
-- 封装 MySQL 接口，将用户数据储存到磁盘中，实现数据持久化
+- 使用Mysql，封装接口实现数据层和业务层的连接，将用户数据储存到磁盘中，实现数据持久化。
+- 使用第三方 JSON 库实现通信数据的序列化和反序列化。
+- 使用 Nginx 的 TCP 负载均衡功能，将客户端请求分派到多个服务器上，以提高并发处理能力。
+- 基于发布-订阅的服务器中间件redis消息队列，解决用户跨服务器无法通信问题。
 - 基于 CMake 构建自动化编译环境，使用git对项目进行版本管理。
 
 ## 必要环境
@@ -210,8 +208,4 @@ void ChatServer::onMessage(const TcpConnectionPtr &conn,
 
 ![](https://cdn.nlark.com/yuque/0/2022/png/26752078/1663747534358-10e307b4-95c8-43f3-8dc2-5deed9893f1c.png#crop=0&crop=0&crop=1&crop=1&from=url&id=QproC&margin=%5Bobject%20Object%5D&originHeight=505&originWidth=619&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
 
-# 详细记录
-
-=======
-# Chat_muduo
->>>>>>> 5f09d81629e6a8e69a42cd54902721f3e3015f7a
+# 开发问题记录
