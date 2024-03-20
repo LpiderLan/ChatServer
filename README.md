@@ -209,3 +209,19 @@ void ChatServer::onMessage(const TcpConnectionPtr &conn,
 ![](https://cdn.nlark.com/yuque/0/2022/png/26752078/1663747534358-10e307b4-95c8-43f3-8dc2-5deed9893f1c.png#crop=0&crop=0&crop=1&crop=1&from=url&id=QproC&margin=%5Bobject%20Object%5D&originHeight=505&originWidth=619&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
 
 # 开发问题记录
+问题：同一个Client用户登录注销之后，再次登录出现阻塞情况
+解决：
+    1.使用ps -u 查看当前系统中正在运行的进程的命令
+    2.使用gdp attach PID 调试
+    3.info threads 查看线程数量，发现两个接收输入的进程
+    4.用bt打印堆栈，找到对应代码
+    主线程中的选择登录之后的发送消息：int len = send(clientfd, request.c_str(), strlen(request.c_str()) + 1, 0);
+    主线程中的recv：int len = recv(clientfd, buffer, 1024, 0);
+    子线程中的recv：int len = recv(clientfd, buffer, 1024, 0);  
+    5.两个的clientfd是一样的，说明我们登录进来之后的发送的消息是被子线程接收了，但是我们子线程没有写对应的处理逻辑
+    6.修改代码：原本的逻辑是用户登录之后启动子线程，所以会有两个recv现在改成
+    主线程只发送（把他的recv去掉），子线程专门接收
+    启动主线程的时候就启动子线程（读线程）
+
+
+# 数据安全如何保证：

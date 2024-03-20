@@ -297,7 +297,7 @@ void readTaskHandler(int clientfd)
     for (;;)
     {
         char buffer[1024] = {0};
-        int len = recv(clientfd, buffer, 1024, 0);  // 阻塞了,从已连接的套接字中将接收到的数据存储在 buffer 中，并将接收到的字节数保存在 len 变量
+        int len = recv(clientfd, buffer, 1024, 0);  // 在注销的时候会阻塞,从已连接的套接字中将接收到的数据存储在 buffer 中，并将接收到的字节数保存在 len 变量
         if (-1 == len || 0 == len)
         {
             close(clientfd);
